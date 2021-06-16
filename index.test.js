@@ -64,12 +64,38 @@ describe('[Exercise 5] Seasons', () => {
   beforeEach(() => {
     seasons = new utils.Seasons() // each test must start with fresh seasons
   })
-  test.todo('[9] the FIRST call of seasons.next returns "summer"')
-  test.todo('[10] the SECOND call of seasons.next returns "fall"')
-  test.todo('[11] the THIRD call of seasons.next returns "winter"')
-  test.todo('[12] the FOURTH call of seasons.next returns "spring"')
-  test.todo('[13] the FIFTH call of seasons.next returns again "summer"')
-  test.todo('[14] the 40th call of seasons.next returns "spring"')
+  test('[9] the FIRST call of seasons.next returns "summer"', () => {
+    expect(seasons.next()).toBe('summer')
+  })
+  test('[10] the SECOND call of seasons.next returns "fall"', () => {
+    expect(seasons.next()).toBe('summer')
+    expect(seasons.next()).toBe('fall')
+  })
+  test('[11] the THIRD call of seasons.next returns "winter"', () => {
+    expect(seasons.next()).toBe('summer')
+    expect(seasons.next()).toBe('fall')
+    expect(seasons.next()).toBe('winter')
+  })
+  test('[12] the FOURTH call of seasons.next returns "spring"', () => {
+    expect(seasons.next()).toBe('summer')
+    expect(seasons.next()).toBe('fall')
+    expect(seasons.next()).toBe('winter')
+    expect(seasons.next()).toBe('spring')
+  })
+  test('[13] the FIFTH call of seasons.next returns again "summer"', () => {
+    let answer = ''
+    for (let i=0; i < 5; i++) {
+      answer = seasons.next()
+    }
+    expect(answer).toBe('summer')
+  })
+  test('[14] the 40th call of seasons.next returns "spring"', () => {
+    let answer = ''
+    for (let i=0; i < 40; i++) {
+      answer = seasons.next()
+    }
+    expect(answer).toBe('spring')
+  })
 })
 
 describe('[Exercise 6] Car', () => {

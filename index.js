@@ -8,8 +8,17 @@
  */
 function trimProperties(obj) {
   // ✨ implement
-}
+  const trimmed = {}
+  for (let key in obj) {
+    trimmed[key] = obj[key].trim()
+  }
+  return trimmed
+  // trimmed.foo = obj.foo.trim()
+  // trimmed.bar = obj.bar.trim()
+  // trimmed.baz = obj.baz.trim()
 
+  // return trimmed
+}
 /**
  * [Exercise 2] trimPropertiesMutation trims in place the properties of an object
  * @param {object} obj - an object with properties that are strings
@@ -20,6 +29,17 @@ function trimProperties(obj) {
  */
 function trimPropertiesMutation(obj) {
   // ✨ implement
+  for (let key in obj) {
+    obj[key] = obj[key].trim()
+  }
+
+  return obj
+
+  // obj.foo = obj.foo.trim()
+  // obj.bar = obj.bar.trim()
+  // obj.baz = obj.baz.trim()
+
+  // return obj
 }
 
 /**
@@ -32,6 +52,13 @@ function trimPropertiesMutation(obj) {
  */
 function findLargestInteger(integers) {
   // ✨ implement
+  let highestNum = integers[0].integer
+  for (let i = 0; i < integers.length; i++) {
+    if (integers[i].integer > highestNum) {
+      highestNum = integers[i].integer
+    }
+  }
+  return highestNum
 }
 
 class Counter {
@@ -41,6 +68,7 @@ class Counter {
    */
   constructor(initialNumber) {
     // ✨ initialize whatever properties are needed
+    this.initialNumber = initialNumber
   }
 
   /**
@@ -56,6 +84,10 @@ class Counter {
    * counter.countDown() // returns 0
    */
   countDown() {
+    if ( this.initialNumber > 0 ) {
+      return this.initialNumber--
+    } 
+      return this.initialNumber
     // ✨ implement
   }
 }
@@ -93,8 +125,10 @@ class Car {
    * @param {number} mpg - miles the car can drive per gallon of gas
    */
   constructor(name, tankSize, mpg) {
+    this.name = name
     this.odometer = 0 // car initilizes with zero miles
     this.tank = tankSize // car initiazes full of gas
+    this.mpg = mpg
     // ✨ initialize whatever other properties are needed
   }
 

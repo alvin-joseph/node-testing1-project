@@ -10,8 +10,8 @@ describe('[Exercise 1] trimProperties', () => {
   })
   test('[2] returns a copy, leaving the original object intact', () => {
     const input = { foo: '  foo ', bar: 'bar ', baz: ' baz' }
-    const actual = utils.trimProperties(input)
-    expect(actual).not.toBe(input)
+    utils.trimProperties(input)
+    expect(input).toEqual({ foo: '  foo ', bar: 'bar ', baz: ' baz' })
   })
 })
 
@@ -25,16 +25,15 @@ describe('[Exercise 2] trimPropertiesMutation', () => {
   test('[4] the object returned is the exact same one we passed in', () => {
     const input = { foo: 'foo', bar: 'bar', baz: 'baz' }
     const actual = utils.trimPropertiesMutation(input)
-    expect(actual).toEqual(input)
+    expect(actual).toBe(input)
   })
 })
 
 describe('[Exercise 3] findLargestInteger', () => {
   test('[5] returns the largest number in an array of objects { integer: 2 }', () => {
     const arr = [{ integer: 1}, {integer: 2}, {integer:3}]
-    const largest = 3
     const actual = utils.findLargestInteger(arr)
-    expect(actual).toBe(largest)
+    expect(actual).toBe(3)
   })
 })
 
@@ -47,7 +46,7 @@ describe('[Exercise 4] Counter', () => {
     expect(counter.countDown()).toBe(3)
   })
   test('[7] the SECOND CALL of counter.countDown returns the initial count minus one', () => {
-    expect(counter.countDown()).toBe(3)
+    counter.countDown()
     expect(counter.countDown()).toBe(2)
   })
   test('[8] the count eventually reaches zero but does not go below zero', () => {
@@ -77,9 +76,9 @@ describe('[Exercise 5] Seasons', () => {
     expect(seasons.next()).toBe('winter')
   })
   test('[12] the FOURTH call of seasons.next returns "spring"', () => {
-    expect(seasons.next()).toBe('summer')
-    expect(seasons.next()).toBe('fall')
-    expect(seasons.next()).toBe('winter')
+    seasons.next()
+    seasons.next()
+    seasons.next()
     expect(seasons.next()).toBe('spring')
   })
   test('[13] the FIFTH call of seasons.next returns again "summer"', () => {
@@ -99,19 +98,63 @@ describe('[Exercise 5] Seasons', () => {
 })
 
 describe('[Exercise 6] Car', () => {
-  let focus
+  let charger
   beforeEach(() => {
-    focus = new utils.Car('focus', 20, 30) // each test must start with a fresh car
+    charger = new utils.Car('charger', 20, 30) // each test must start with a fresh car
   })
-  test.todo('[15] driving the car returns the updated odometer')
-  test.todo('[16] driving the car uses gas')
-  test.todo('[17] refueling allows to keep driving')
-  test.todo('[18] adding fuel to a full tank has no effect')
+  test('[15] driving the car returns the updated odometer', () => {
+    expect(charger.drive(100)).toBe(100)
+    expect(charger.drive(100)).toBe(200)
+    expect(charger.drive(100)).toBe(300)
+    expect(charger.drive(200)).toBe(500)
+  })
+  test('[16] driving the car uses gas', () => {
+    charger.drive(600)
+    expect(charger.drive(200)).toBe(600) //tank is empty so can't drive anymore
+    expect(charger.drive(200)).toBe(600)
+    expect(charger.drive(200)).toBe(600)
+    //expect(charger.tank).toBe(0)
+  })
+  test('[17] refueling allows to keep driving', () => {
+    charger.drive(600)
+    charger.refuel(10)
+    charger.drive(600)
+    expect(charger.odometer).toBe(900)
+    charger.refuel(10)
+    charger.drive(600)
+    expect(charger.odometer).toBe(1200)
+  })
+  test('[18] adding fuel to a full tank has no effect', () => {
+    charger.refuel(1000)
+    charger.drive(1000)
+    expect(charger.odometer).toBe(600)
+  })
 })
 
 describe('[Exercise 7] isEvenNumberAsync', () => {
-  test.todo('[19] resolves true if passed an even number')
-  test.todo('[20] resolves false if passed an odd number')
-  test.todo('[21] rejects an error with the message "number must be a number" if passed a non-number type')
-  test.todo('[22] rejects an error with the message "number must be a number" if passed NaN')
+  test('[19] resolves true if passed an even number', async () => {
+    const input = 2
+    const result = await utils.isEvenNumberAsync(input)
+    expect(result).toBe(true)
+  })
+  test('[20] resolves false if passed an odd number', async () => {
+    const input = 3
+    const result = await utils.isEvenNumberAsync(input)
+    expect(result).toBe(false)
+  })
+  test('[21] rejects an error with the message "number must be a number" if passed a non-number type', 
+    async () => {
+    try {
+      await utils.isEvenNumberAsync('howdy')
+    } catch (error) {
+      expect(error.message).toMatch(/number must be a number/i)
+    }
+  })
+  test('[22] rejects an error with the message "number must be a number" if passed NaN', async () => {
+    try {
+      await utils.isEvenNumberAsync(NaN)
+    } catch (error) {
+      expect(error.message).toMatch(/number must be a number/i)
+    }
+  })
 })

@@ -9,8 +9,8 @@
 function trimProperties(obj) {
   // ✨ implement
   const trimmed = {}
-  for (let key in obj) {
-    trimmed[key] = obj[key].trim()
+  for (let prop in obj) {
+    trimmed[prop] = obj[prop].trim()
   }
   return trimmed
   // trimmed.foo = obj.foo.trim()
@@ -29,8 +29,8 @@ function trimProperties(obj) {
  */
 function trimPropertiesMutation(obj) {
   // ✨ implement
-  for (let key in obj) {
-    obj[key] = obj[key].trim()
+  for (let prop in obj) {
+    obj[prop] = obj[prop].trim()
   }
 
   return obj
@@ -53,7 +53,7 @@ function trimPropertiesMutation(obj) {
 function findLargestInteger(integers) {
   // ✨ implement
   let highestNum = integers[0].integer
-  for (let i = 0; i < integers.length; i++) {
+  for (let i = 1; i < integers.length; i++) {
     if (integers[i].integer > highestNum) {
       highestNum = integers[i].integer
     }
@@ -90,6 +90,8 @@ class Counter {
       return this.initialNumber
     // ✨ implement
   }
+
+  //return this.count > 0 ? this.count-- : 0
 }
 
 class Seasons {
@@ -98,7 +100,9 @@ class Seasons {
    */
   constructor() {
     // ✨ initialize whatever properties are needed
-    this.initialSeason = 'spring'
+    this.seasons = ['summer', 'fall', 'winter', 'spring']
+    this.currentSeason = 0
+    //this.initialSeason = 'spring'
   }
 
   /**
@@ -115,16 +119,24 @@ class Seasons {
    */
   next() {
     // ✨ implement
-    if (this.initialSeason === 'summer') {
-      this.initialSeason = 'fall'
-    } else if (this.initialSeason === 'fall') {
-      this.initialSeason = 'winter'
-    } else if (this.initialSeason === 'winter') {
-      this.initialSeason = 'spring'
-    } else if (this.initialSeason === 'spring') {
-      this.initialSeason = 'summer'
+    // if (this.initialSeason === 'summer') {
+    //   this.initialSeason = 'fall'
+    // } else if (this.initialSeason === 'fall') {
+    //   this.initialSeason = 'winter'
+    // } else if (this.initialSeason === 'winter') {
+    //   this.initialSeason = 'spring'
+    // } else if (this.initialSeason === 'spring') {
+    //   this.initialSeason = 'summer'
+    // }
+    // return this.initialSeason
+
+    const result = this.seasons[this.currentSeason]
+    if (this.currentSeason === 3) {
+      this.currentSeason = 0
+    } else {
+      ++this.currentSeason
     }
-    return this.initialSeason
+    return result
   }
 }
 
@@ -136,9 +148,9 @@ class Car {
    * @param {number} mpg - miles the car can drive per gallon of gas
    */
   constructor(name, tankSize, mpg) {
-    this.name = name
     this.odometer = 0 // car initilizes with zero miles
     this.tank = tankSize // car initiazes full of gas
+    this.tankSize = tankSize
     this.mpg = mpg
     // ✨ initialize whatever other properties are needed
   }
@@ -158,6 +170,16 @@ class Car {
    */
   drive(distance) {
     // ✨ implement
+    const milesCanDrive = this.tank * this.mpg
+    if (distance <= milesCanDrive) {
+      this.odometer = this.odometer + distance
+      this.tank = this.tank - (distance / this.mpg)
+      return this.odometer
+    } else {
+      this.odometer = this.odometer + milesCanDrive
+      this.tank = 0
+      return this.odometer
+    }
   }
 
   /**
@@ -173,6 +195,13 @@ class Car {
    */
   refuel(gallons) {
     // ✨ implement
+    const gallonsCapacity = this.tankSize - this.tank
+    if (gallons <= gallonsCapacity) {
+      this.tank = this.tank + gallons
+    } else {
+      this.tank = this.tankSize
+    }
+    return this.tank * this.mpg
   }
 }
 
@@ -195,8 +224,16 @@ class Car {
  *    // error.message is "number must be a number"
  * })
  */
-function isEvenNumberAsync(number) {
+async function isEvenNumberAsync(number) {
   // ✨ implement
+  if (number % 2 === 0) {
+    return true
+  } else if (typeof number !== 'number' || isNaN(number)) {
+    throw new Error('number must be a number')
+  } else {
+    return false
+  }
+
 }
 
 module.exports = {
